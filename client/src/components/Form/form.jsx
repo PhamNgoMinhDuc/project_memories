@@ -1,22 +1,70 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
+import { useDispatch, useSelector } from "react-redux";
+import { createPosts, updatePost } from "../../redux/actions/postsAction";
 
-const form = () => {
+const form = ({ currentId, setCurrentId }) => {
+  const [postData, setPostData] = useState({ title: "", message: "", tags: "", selectedFile: "" });
+
+  const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
+  const clear = () => {
+    setCurrentId(0);
+    setPostData({ title: "", message: "", tags: "", selectedFile: "" });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (currentId === 0) {
+      dispatch(createPosts({ ...postData, name: user?.result?.name }));
+      clear();
+    } else {
+      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
+      clear();
+    }
+  };
+
+  if (!user?.result?.name) {
+    return <div>Vui long dang nhap</div>;
+  }
   return (
-    <div className=" md:flex-auto  md:w-[20%] h-auto border-1 rounded-[10px] border-black px-4 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)]">
-      <div>
+    <div className=" h-[580px] form ">
+      <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <h3 className=" text-center font-bold">Creating a Memory</h3>
-        <input className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black" type="text" name="title" placeholder="title"></input>
-        <input className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-40 mt-5 py-2 px-4 placeholder:text-black " type="text" name="Mesage" placeholder="Mesage"></input>
-        <input className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black" type="text" name="Tags" placeholder="Tags"></input>
+
+        <input type="text" value={postData.title} placeholder="Title" onChange={(e) => setPostData({ ...postData, title: e.target.value })} className="form-input"></input>
+        <textarea
+          type="text"
+          cols="40"
+          rows="5"
+          Class
+          value={postData.message}
+          placeholder="Message"
+          onChange={(e) => setPostData({ ...postData, message: e.target.value })}
+          className=" resize-none form-input"
+        ></textarea>
+        <input type="text" value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(",") })} placeholder="Tags" className="form-input"></input>
 
         <div className="my-2">
-          <FileBase type="file" multiple={false} />
+          <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
         </div>
-
-        <button className=" bg-blue-600 text-white w-full mt-2 py-1 rounded-[5px] cursor-pointer">SUBMIT</button>
-        <button className=" bg-red-600 text-white w-full mt-1 py-1 rounded-[5px] cursor-pointer">Clear</button>
-      </div>
+        <div>
+          <button type="submit" className=" bg-blue-600 btn mt-1">
+            SUBMIT
+          </button>
+          <button onClick={clear} className=" bg-red-600 btn mt-1">
+            Clear
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

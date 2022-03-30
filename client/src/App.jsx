@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import NavBar from "./components/navBar/navBar";
-import Form from "./components/Form/form";
-import Posts from "./components/Posts/posts";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Home from "./components/Home/home";
+import Auth from "./components/Auth/auth";
+import NotFound from "./components/NotFound/notFound";
 
 const App = () => {
   const [windowSize, setWindowSize] = useState({
@@ -24,7 +26,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    console.log(windowSize);
     if (windowSize.width <= 769) {
       setMobile(true);
     } else {
@@ -33,21 +34,16 @@ const App = () => {
   }, [windowSize]);
 
   return (
-    <div className="h-screen">
-      <NavBar isMobile={isMobile} />
-
-      {/*       <div class="grid grid-cols-4 gap-4">
-        <div class="bg-red-500 col-span-1 ">01</div>
-        <div class="bg-blue-500 col-span-2 ">02</div>
-        <div class="bg-green-500 col-span-1 ">03</div>
-        <div class="bg-yellow-500 col-span-1 ">04</div>
-      </div> */}
-
-      <div className="md:flex gap-4 px-4 mt-20">
-        <Form />
-        <Posts />
+    <BrowserRouter>
+      <div className=" dark:bg-black dark:text-[#dddee3] ">
+        <Routes>
+          <Route path="/" element={<Home isMobile={isMobile} />} />
+          <Route path="/home" element={<Home isMobile={isMobile} />} />
+          <Route path="/auth" element={<Auth isMobile={isMobile} />} />
+  <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
-    </div>
+    </BrowserRouter>
   );
 };
 
