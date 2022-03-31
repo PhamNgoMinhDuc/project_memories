@@ -36,7 +36,7 @@ const form = ({ currentId, setCurrentId }) => {
     return <div>Vui long dang nhap</div>;
   }
   return (
-    <div className=" h-[580px] form ">
+    <div className=" h-[500px] form ">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <h3 className=" text-center font-bold">Creating a Memory</h3>
 

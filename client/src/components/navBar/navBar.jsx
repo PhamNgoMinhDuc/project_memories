@@ -38,7 +38,7 @@ const navBar = (props) => {
   useEffect(() => {
     const token = user?.token;
 
-    /*     const decodedToken = decode(token);
+    /* const decodedToken = decode(token);
     if (decodedToken.exp * 1000 < new Date().getTime()) handleLogout(); */
 
     setUser(JSON.parse(localStorage.getItem("profile")));

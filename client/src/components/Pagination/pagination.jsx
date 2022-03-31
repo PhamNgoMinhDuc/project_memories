@@ -1,9 +1,26 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-const pagination = () => {
+import { getPosts } from "../../redux/actions/postsAction";
+const pagination = (props) => {
+  const { page } = props;
+  const { numberOfPages } = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (page) dispatch(getPosts(page));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
   return (
-    <div className="mt-10 border-1 rounded-[10px] border-black px-4 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)] dark:bg-[#242526] dark:text-[#dddee3] ">
-      <div>hjhj</div>
+    <div className="mb-4 form ">
+      <ul className="flex flex-row items-center justify-center gap-4 w-full">
+        <li className="btn-pagination">&laquo;</li>
+        <li className="btn-pagination">1</li>
+        {}
+        <li className="btn-pagination">&raquo;</li>
+      </ul>
     </div>
   );
 };

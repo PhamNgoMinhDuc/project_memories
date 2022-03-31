@@ -3,14 +3,16 @@ import axios from "axios";
 const API = axios.create({ baseURL: "http://localhost:8080" });
 
 API.interceptors.request.use((req) => {
-    if (localStorage.getItem("profile")) {
-        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem("profile")).token}`;
-    }
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem("profile")).token}`;
+  }
 
-    return req;
+  return req;
 });
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
+
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || "none"}&tags=${searchQuery.tags}`);
 
 export const createPosts = (newPost) => API.post(`/posts`, newPost);
 
