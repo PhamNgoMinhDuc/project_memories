@@ -4,7 +4,8 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPosts, updatePost } from "../../redux/actions/postsAction";
 
-const form = ({ currentId, setCurrentId }) => {
+const form = (props) => {
+  const { currentId, setCurrentId } = props;
   const [postData, setPostData] = useState({ title: "", message: "", tags: "", selectedFile: "" });
 
   const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));

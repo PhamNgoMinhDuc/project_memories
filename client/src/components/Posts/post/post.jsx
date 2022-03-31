@@ -2,14 +2,20 @@
 import React from "react";
 import { AiFillLike, AiOutlineDelete, AiFillEdit, AiOutlineLike } from "react-icons/ai";
 import moment from "moment";
-
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../redux/actions/postsAction";
 const post = (props) => {
   const { post, setCurrentId } = props;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const openPost = () => {
+    navigate(`/home/${post._id}`);
+  };
+
   const Likes = () => {
     if (post.likes.length > 0) {
       return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id)) ? (
@@ -35,7 +41,7 @@ const post = (props) => {
 
   return (
     <div className="mb-4 md:mb-0 w-full h-auto flex flex-col overflow-hidden rounded-[10px] border-1 border-black shadow-[0px_5px_10px_0px_rgba(0,0,0,0.5)] dark:bg-[#242526] dark:text-[#dddee3]">
-      <div className="relative">
+      <div className="relative" onClick={openPost}>
         <img
           src={post.selectedFile || "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"}
           alt=""

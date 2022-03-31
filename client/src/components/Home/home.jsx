@@ -23,14 +23,11 @@ const home = (props) => {
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
   return (
     <div>
       <NavBar isMobile={isMobile} />
       <div className="md:flex gap-4 px-4 pt-20 ">
-        <div className=" md:flex-auto  md:w-[20%]">
+        <div className=" md:flex-auto md:w-[20%]">
           <Search />
           <Pagination page={page} />
           <Form currentId={currentId} setCurrentId={setCurrentId} />

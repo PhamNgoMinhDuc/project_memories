@@ -1,11 +1,85 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { useParams } from "react-router-dom";
 import NavBar from "../navBar/navBar";
+import { getPost, getPostsBySearch } from "../../redux/actions/postsAction";
 const postDetails = (props) => {
   const { isMobile } = props;
+  const { post, posts, isLoading } = useSelector((state) => state.posts);
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getPost(id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  useEffect(() => {
+    if (post) {
+      dispatch(getPostsBySearch({ search: "none", tags: post?.tags.join(",") }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post]);
+
+  const openPost = (_id) => {
+    navigate(`/home/${_id}`);
+  };
+
+  if (!post) return null;
+
+  if (isLoading)
+    return (
+      <>
+        <div className=" md:flex-auto md:w-[80%]">
+          <div className="gap-4 mt-4 md:mt-0 w-full h-full flex justify-center">
+            <div className=" h-20 w-20 border-[10px] border-t-8 border-t-blue-600 md:mt-60 rounded-full animate-spin mt-10"></div>
+          </div>
+        </div>
+      </>
+    );
+
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
   return (
     <div>
       <NavBar isMobile={isMobile} />
-      <div className="mt-20">fsdddddddddddddd</div>
+      <div>
+        <div className="h-20"></div>
+        <div className="w-full p-4 form ">
+          <div className="flex flex-wrap-reverse gap-2 md:flex-nowrap md:flex-row">
+            <div className="flex-auto w-[100%] md:flex-auto md:w-[50%]">
+              <div className=" text-4xl font-medium ">{post.title}</div>
+              <div className=" text-sm text-gray-400">{post.tags}</div>
+              <div className=" text-base">{post.message}</div>
+              <div className="text-base text-gray-400">{moment(post.createdAt).fromNow()}</div>
+            </div>
+            <img
+              className="flex-auto w-[100%] md:flex-auto md:w-[50%] object-cover rounded-[5px]"
+              src={post.selectedFile || "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"}
+              alt=""
+            />
+          </div>
+          <div>
+            {recommendedPosts.length && (
+              <>
+                <div>You might also like:</div>
+                <div className="flex gap-4">
+                  {recommendedPosts.map(({ title, message, name, likes, selectedFile, _id }) => (
+                    <>
+                      <div key={_id} onClick={() => openPost(_id)}>
+                        <button>{title}</button>
+                      </div>
+                    </>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
