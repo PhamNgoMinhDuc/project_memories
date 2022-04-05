@@ -6,9 +6,12 @@ import moment from "moment";
 import { useParams } from "react-router-dom";
 import NavBar from "../navBar/navBar";
 import { getPost, getPostsBySearch } from "../../redux/actions/postsAction";
+import Comment from "./comment";
+
 const postDetails = (props) => {
   const { isMobile } = props;
   const { post, posts, isLoading } = useSelector((state) => state.posts);
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,6 +58,7 @@ const postDetails = (props) => {
               <div className=" text-sm text-gray-400">{post.tags}</div>
               <div className=" text-base">{post.message}</div>
               <div className="text-base text-gray-400">{moment(post.createdAt).fromNow()}</div>
+              <Comment />
             </div>
             <img
               className="flex-auto w-[100%] md:flex-auto md:w-[50%] object-cover rounded-[5px]"

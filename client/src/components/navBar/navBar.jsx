@@ -22,7 +22,6 @@ const navBar = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
   const handlMenu = () => {
     setOpenMenu(!openMenu);
   };
@@ -55,24 +54,28 @@ const navBar = (props) => {
 
       <div className=" flex items-center gap-10 font-normal">
         {!openMenu && isMobile ? (
-          <AiOutlineMenu className=" cursor-pointer" onClick={handlMenu} />
+          <>
+            <AiOutlineMenu className=" cursor-pointer" onClick={handlMenu} />
+          </>
         ) : openMenu && isMobile ? (
-          <AiOutlineClose className=" cursor-pointer" onClick={handlMenu} />
+          <>
+            <AiOutlineClose className=" cursor-pointer" onClick={handlMenu} />
+          </>
         ) : (
           <>
             <ul className="flex items-center justify-center gap-6">
               <li>
                 {isDarkMode ? (
                   <>
-                    <div className="flex gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                      <BsFillSunFill size={24} color="#ffeb3b" />
+                    <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
+                      <BsFillSunFill size={20} color="#ffeb3b" />
                       LightMode
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="flex gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                      <FaMoon size={24} color="#885dec" />
+                    <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
+                      <FaMoon size={20} color="#885dec" />
                       DarkMode
                     </div>
                   </>
@@ -81,7 +84,7 @@ const navBar = (props) => {
               {user ? (
                 <>
                   <div className="flex items-center justify-center gap-5">
-                    <li>PNMD</li>
+                    <li>{user.result.name}</li>
                     <li>
                       <button onClick={handleLogout} className=" bg-red-600 btn">
                         LOGUOT
@@ -90,47 +93,53 @@ const navBar = (props) => {
                   </div>
                 </>
               ) : (
-                <li>
-                  <Link to="/auth">
-                    <button className=" bg-blue-600 btn">LOGIN</button>
-                  </Link>
-                </li>
+                <>
+                  <li>
+                    <Link to="/auth">
+                      <button className=" bg-blue-600 btn">LOGIN</button>
+                    </Link>
+                  </li>
+                </>
               )}
             </ul>
           </>
         )}
-        {openMenu && (
-          <ul className="absolute top-12 right-8 bg-white border-black px-4 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)] before-menu">
+        {openMenu && isMobile && (
+          <ul className="absolute flex flex-col gap-2 top-12 right-8 bg-white border-black px-4 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)] before-menu">
             <li>
               {isDarkMode ? (
                 <>
-                  <div className="flex gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                    <BsFillSunFill size={24} color="#ffeb3b" />
+                  <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
+                    <BsFillSunFill size={20} color="#ffeb3b" />
                     LightMode
                   </div>
                 </>
               ) : (
-                <div className="flex gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                  <FaMoon size={24} color="#885dec" />
-                  DarkMode
-                </div>
+                <>
+                  <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
+                    <FaMoon size={20} color="#885dec" />
+                    DarkMode
+                  </div>
+                </>
               )}
             </li>
             {user ? (
               <>
-                <div className="">
-                  <li>PNMD</li>
+                <div className="flex flex-col gap-2 items-center ">
+                  <li>{user.result.name}</li>
                   <li>
                     <button className=" bg-red-600 btn">LOGUOT</button>
                   </li>
                 </div>
               </>
             ) : (
-              <li>
-                <Link to="/auth">
-                  <button className=" bg-blue-600 btn">LOGIN</button>
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link to="/auth">
+                    <button className=" bg-blue-600 btn">LOGIN</button>
+                  </Link>
+                </li>
+              </>
             )}
           </ul>
         )}

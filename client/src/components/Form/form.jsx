@@ -26,6 +26,7 @@ const form = (props) => {
 
     if (currentId === 0) {
       dispatch(createPosts({ ...postData, name: user?.result?.name }));
+
       clear();
     } else {
       dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));

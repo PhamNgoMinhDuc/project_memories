@@ -86,3 +86,15 @@ export const likePost = async (req, res) => {
   const likePost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
   return res.status(202).json(likePost);
 };
+
+export const commentPost = async (req, res) => {
+  const { id } = req.params;
+  const { commentPost } = req.body;
+
+  const post = await PostMessage.findById(id);
+
+  post.comments.push(commentPost);
+
+  const updatePost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+  return res.status(202).json(updatePost);
+};

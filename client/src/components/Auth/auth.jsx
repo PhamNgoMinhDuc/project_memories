@@ -24,6 +24,7 @@ const auth = (props) => {
     setSignIn(!isSignIn);
   };
 
+  console.log(formData);
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
