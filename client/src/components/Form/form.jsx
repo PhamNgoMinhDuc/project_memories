@@ -7,31 +7,30 @@ import { createPosts, updatePost } from "../../redux/actions/postsAction";
 const form = (props) => {
   const { currentId, setCurrentId } = props;
   const [postData, setPostData] = useState({ title: "", message: "", tags: "", selectedFile: "" });
-
-  const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null));
 
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
 
-  const clear = () => {
-    setCurrentId(0);
-    setPostData({ title: "", message: "", tags: "", selectedFile: "" });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(currentId);
 
-    if (currentId === 0) {
+    if (!currentId) {
       dispatch(createPosts({ ...postData, name: user?.result?.name }));
-
-      clear();
     } else {
       dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
-      clear();
     }
+    clear();
+  };
+
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({ title: "", message: "", tags: "", selectedFile: "" });
   };
 
   if (!user?.result?.name) {

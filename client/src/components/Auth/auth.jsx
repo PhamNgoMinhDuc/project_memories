@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AiFillEyeInvisible, AiFillEye, AiOutlineGooglePlus } from "react-icons/ai";
+import { AiFillEyeInvisible, AiFillEye, AiOutlineGooglePlus, AiOutlineClose } from "react-icons/ai";
 
 import { signin, signup } from "../../redux/actions/authAction";
 
@@ -17,26 +17,62 @@ const auth = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [formData, setFormData] = useState(initialState);
+  const [errorsMessage, setErrorsMessage] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const clearValidate = () => {
+    setErrorsMessage({});
+  };
+
   const handleSwitch = () => {
+    clearValidate();
     setSignIn(!isSignIn);
   };
 
-  console.log(formData);
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
-  };
-  const handleShowRepeatPassword = () => {
-    setShowRepeatPassword(!showRepeatPassword);
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const validate = () => {
+    let errors = { isValid: "" };
+    if (formData["email"].length === 0) {
+      errors.email = "Chua dien email";
+      errors.isValid = "error";
+    }
+    if (formData["password"].length === 0) {
+      errors.password = "Chua dien password";
+      errors.isValid = "error";
+    }
+    if (formData["firstName"].length === 0) {
+      errors.firstName = "Chua dien firstName";
+      errors.isValid = "error";
+    }
+    if (formData["lastName"].length === 0) {
+      errors.lastName = "Chua dien lastName";
+      errors.isValid = "error";
+    }
+    if (formData["confirmPassword"].length === 0) {
+      errors.confirmPassword = "Chua dien confirmPassword";
+      errors.isValid = "error";
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    /*     const err = validate();  
+    console.log(err);
+    if (err.isValid === "error") {
+      setErrorsMessage(err);
+      return;
+    } else {
+    } */
+
     if (isSignIn) {
       dispatch(signin(formData, navigate));
     } else {
@@ -44,6 +80,7 @@ const auth = (props) => {
     }
   };
 
+  console.log();
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
     const token = res?.tokenId;
@@ -59,8 +96,9 @@ const auth = (props) => {
   };
 
   return (
-    <div className=" h-screen flex justify-center items-center">
+    <div className="h-screen flex justify-center items-center">
       <NavBar isMobile={isMobile} />
+
       <form onSubmit={handleSubmit}>
         <div className=" w-96 h-auto border-2 rounded-[10px] p-4  px-4 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)] dark:bg-[#242526] dark:text-[#dddee3] dark:border-black flex flex-col  items-center">
           {!isSignIn ? (
@@ -74,6 +112,7 @@ const auth = (props) => {
                   placeholder="FirstName"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
+                <div>{errorsMessage.firstName}</div>
                 <input
                   type="text"
                   name="lastName"
@@ -81,6 +120,7 @@ const auth = (props) => {
                   placeholder="LastName"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
+                <div>{errorsMessage.lastName}</div>
               </div>
               <input
                 type="email"
@@ -89,6 +129,7 @@ const auth = (props) => {
                 placeholder="Email Adress"
                 className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
               />
+              <div>{errorsMessage.email}</div>
               <div className="w-full relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -97,34 +138,17 @@ const auth = (props) => {
                   placeholder="Password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                {showPassword ? (
-                  <>
-                    <AiFillEyeInvisible size={22} className="absolute top-8 right-4 cursor-pointer" onClick={handleShowPassword} />
-                  </>
-                ) : (
-                  <>
-                    <AiFillEye size={22} className="absolute top-8 right-4 cursor-pointer" onClick={handleShowPassword} />
-                  </>
-                )}
+                <div>{errorsMessage.password}</div>
               </div>
               <div className="w-full relative">
                 <input
                   type={showRepeatPassword ? "text" : "password"}
                   name="confirmPassword"
                   onChange={handleChange}
-                  handleShowPassword={handleShowRepeatPassword}
                   placeholder="Repeat password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                {showRepeatPassword ? (
-                  <>
-                    <AiFillEyeInvisible size={22} className="absolute top-8 right-4 cursor-pointer" onClick={handleShowRepeatPassword} />
-                  </>
-                ) : (
-                  <>
-                    <AiFillEye size={22} className="absolute top-8 right-4 cursor-pointer" onClick={handleShowRepeatPassword} />
-                  </>
-                )}
+                <div>{errorsMessage.confirmPassword}</div>
               </div>
               <button type="submit" className=" bg-blue-600 text-white w-full py-1 my-4 rounded-[5px] cursor-pointer">
                 SIGN UP
@@ -146,6 +170,7 @@ const auth = (props) => {
                 placeholder="Email Adress"
                 className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
               />
+              <div className="  text-error">{errorsMessage.email}</div>
 
               <div className="w-full relative">
                 <input
@@ -155,6 +180,7 @@ const auth = (props) => {
                   placeholder="Password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
+                <div className=" text-error">{errorsMessage.password}</div>
                 {showPassword ? (
                   <>
                     <AiFillEyeInvisible size={22} className="absolute top-8 right-4 cursor-pointer" onClick={handleShowPassword} />

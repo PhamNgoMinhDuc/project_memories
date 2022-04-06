@@ -51,38 +51,38 @@ const postDetails = (props) => {
       <NavBar isMobile={isMobile} />
       <div>
         <div className="h-20"></div>
-        <div className="w-full p-4 form ">
-          <div className="flex flex-wrap-reverse gap-2 md:flex-nowrap md:flex-row">
-            <div className="flex-auto w-[100%] md:flex-auto md:w-[50%]">
-              <div className=" text-4xl font-medium ">{post.title}</div>
-              <div className=" text-sm text-gray-400">{post.tags}</div>
-              <div className=" text-base">{post.message}</div>
-              <div className="text-base text-gray-400">{moment(post.createdAt).fromNow()}</div>
+        <div className="w-full h-auto form ">
+          <div className="flex flex-wrap-reverse h-auto gap-2 md:flex-nowrap md:flex-row">
+            <div className="flex-auto w-full h-[600px] md:flex-auto md:w-[50%]">
+              <div className=" text-4xl font-medium w-full h-12 truncate">{post.title}</div>
+              <div className=" text-sm text-gray-400 w-full h-5 truncate">{post.tags}</div>
+              <div className=" text-base w-full max-h-72 overflow-hidden text-ellipsis">{post.message}</div>
+              <div className="text-base text-gray-400 w-full h-5 truncate">{moment(post.createdAt).fromNow()}</div>
               <Comment />
             </div>
             <img
-              className="flex-auto w-[100%] md:flex-auto md:w-[50%] object-cover rounded-[5px]"
+              className="flex-auto w-full md:flex-auto md:w-[50%] object-cover rounded-[5px]"
               src={post.selectedFile || "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"}
               alt=""
             />
           </div>
-          <div>
-            {recommendedPosts.length && (
-              <>
-                <div>You might also like:</div>
-                <div className="flex gap-4">
-                  {recommendedPosts.map(({ title, message, name, likes, selectedFile, _id }) => (
-                    <>
-                      <div key={_id} onClick={() => openPost(_id)}>
-                        <button>{title}</button>
-                      </div>
-                    </>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
         </div>
+      </div>
+      <div className="form mt-10">
+        {recommendedPosts.length && (
+          <>
+            <div>You might also like:</div>
+            <div className="flex flex-col md:flex-row gap-4">
+              {recommendedPosts.map(({ title, message, name, likes, selectedFile, _id }) => (
+                <>
+                  <div className="form" key={_id} onClick={() => openPost(_id)}>
+                    <button>{title}</button>
+                  </div>
+                </>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ const form = () => {
         className="form-input"
       ></input>
       <div className="form-input flex flex-wrap">
-        <ul className=" w-full flex gap-1 flex-wrap">
+        <ul className=" w-full flex gap-1 flex-wrap ">
           {tags.map((tag, index) => (
             <>
               <li key={index} className=" text-sm px-1 bg-blue-600 text-white border rounded-[10px] flex flex-row justify-center items-center gap-1">
@@ -55,7 +55,7 @@ const form = () => {
             </>
           ))}
         </ul>
-        <input type="text" onKeyUp={(event) => (event.key === "Enter" ? addTags(event) : null)} placeholder="Press space to add tags" className="w-full text-sm bg-transparent outline-none"></input>
+        <input type="text" onKeyUp={(event) => (event.key === "Enter" ? addTags(event) : null)} placeholder="Press space to add tags" className="w-full text-sm bg-transparent outline-none "></input>
       </div>
       <div>
         <button type="submit" onClick={searchPost} className=" bg-blue-600 btn mt-2">

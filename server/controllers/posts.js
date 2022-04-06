@@ -28,8 +28,9 @@ export const getPost = async (req, res) => {
 export const getPostsBySearch = async (req, res) => {
   const { searchQuery, tags } = req.query;
   try {
+    const LIMIT = 8;
     const title = new RegExp(searchQuery, "i");
-    const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(",") } }] });
+    const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(",") } }] }).limit(LIMIT);
     res.status(200).json({ data: posts });
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -49,11 +50,11 @@ export const postPosts = async (req, res) => {
 
 export const UpdatePost = async (req, res) => {
   const { id } = req.params;
-  const { title, message, creator, tags, selectedFile } = req.body;
+  const { title, message, tags, selectedFile } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-  const updatePost = new PostMessage({ title, message, creator, tags, selectedFile, _id: id });
+  const updatePost = new PostMessage({ title, message, tags, selectedFile, _id: id });
   await PostMessage.findByIdAndUpdate(id, updatePost, { new: true });
   return res.status(202).json(updatePost);
 };

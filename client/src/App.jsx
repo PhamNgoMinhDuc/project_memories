@@ -37,7 +37,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="h-screen dark:bg-black dark:text-[#dddee3] ">
+      <div className=" dark:bg-black dark:text-[#dddee3] ">
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home isMobile={isMobile} />} />

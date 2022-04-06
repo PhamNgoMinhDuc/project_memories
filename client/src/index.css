@@ -15,4 +15,7 @@
   .btn-pagination {
     @apply p-1 text-sm w-9 h-8 flex justify-center items-center border rounded-full cursor-pointer hover:bg-[#f1f1f2] dark:bg-black dark:border-black dark:hover:bg-[#3a3b3c];
   }
+  .text-error {
+    @apply text-red-600 flex justify-self-start items-center w-full;
+  }
 }

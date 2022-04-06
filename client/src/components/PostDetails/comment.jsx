@@ -9,6 +9,7 @@ const Comment = () => {
   const [comment, setComment] = useState("");
   const dispatch = useDispatch();
   const commentRef = useRef();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleComment = async () => {
     const commentp = `${post.name} : ${comment}`;
@@ -21,22 +22,22 @@ const Comment = () => {
   console.log(comments);
 
   return (
-    <div className=" border-4 border-black">
-      <h2>Comment</h2>
-      <ul>
+    <div className=" h-40 w-full mt-2">
+      <h2 className=" text-base font-medium">Comment</h2>
+      <div className=" overflow-y-scroll overflow-x-hidden max-h-24">
         {comments.map((cm, index) => (
-          <li key={index}>{cm}</li>
+          <div key={index}>{cm}</div>
         ))}
-      </ul>
-
-      <div ref={commentRef}></div>
-
-      <div>
-        <textarea className="border border-black w-full" placeholder="Comment" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
-        <button className="btn bg-blue-600" onClick={handleComment}>
-          Submit
-        </button>
+        <div ref={commentRef}></div>
       </div>
+      {user?.result?.name && (
+        <div>
+          <input className="form-input w-full max-h-10 mt-2" placeholder="Comment" value={comment} onChange={(e) => setComment(e.target.value)}></input>
+          <button className="btn bg-blue-600 mt-2" onClick={handleComment}>
+            Submit
+          </button>
+        </div>
+      )}
     </div>
   );
 };
