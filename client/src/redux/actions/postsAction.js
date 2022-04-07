@@ -1,5 +1,5 @@
 import * as api from "../../api/index.js";
-import { FETCH_ALL, FETCH_BY_SEARCH, FETCH_POST, CREATE, UPDATE, DELETE, LIKE, COMMENT, START_LOADING, END_LOADING } from "../constants/actionsTyoe";
+import { FETCH_ALL, FETCH_BY_SEARCH, FETCH_POST, CREATE, UPDATE, DELETE, LIKE, COMMENT, START_LOADING, END_LOADING, ERR } from "../constants/actionsTyoe";
 
 export const getPosts = (page) => async (dispatch) => {
   try {
@@ -42,10 +42,11 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 export const createPosts = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPosts(post);
-
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
     console.log(error);
+    let data = error.response.data;
+    dispatch({ type: ERR, payload: data });
   }
 };
 

@@ -1,15 +1,19 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { commentPost } from "../../redux/actions/postsAction";
 
 const Comment = () => {
-  const { post, posts, isLoading } = useSelector((state) => state.posts);
-
-  const [comments, setComments] = useState(post?.comments);
+  // eslint-disable-next-line no-use-before-define
   const [comment, setComment] = useState("");
+
+  const { post } = useSelector((state) => state.posts);
+  const [comments, setComments] = useState(post?.comments);
+
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   const dispatch = useDispatch();
   const commentRef = useRef();
-  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleComment = async () => {
     const commentp = `${post.name} : ${comment}`;
@@ -18,8 +22,6 @@ const Comment = () => {
     setComment("");
     commentRef.current.scrollIntoView({ behavior: "smooth" });
   };
-
-  console.log(comments);
 
   return (
     <div className=" h-40 w-full mt-2">

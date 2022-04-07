@@ -7,7 +7,7 @@ router.get("/search", getPostsBySearch);
 router.get("/:id", getPost);
 router.get("/", getPosts);
 
-router.post("/", auth, postPosts);
+router.post("/", postPosts);
 router.patch("/:id", auth, UpdatePost);
 router.delete("/:id", auth, DeletePosts);
 router.patch("/:id/likePost", auth, likePost);

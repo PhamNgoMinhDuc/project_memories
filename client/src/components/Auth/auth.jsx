@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AiFillEyeInvisible, AiFillEye, AiOutlineGooglePlus, AiOutlineClose } from "react-icons/ai";
+import { AiFillEyeInvisible, AiFillEye, AiOutlineGooglePlus } from "react-icons/ai";
 
 import { signin, signup } from "../../redux/actions/authAction";
 
@@ -17,16 +17,12 @@ const auth = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [formData, setFormData] = useState(initialState);
-  const [errorsMessage, setErrorsMessage] = useState({});
+  const [formErrors, setFormErrors] = useState({});
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const clearValidate = () => {
-    setErrorsMessage({});
-  };
-
   const handleSwitch = () => {
-    clearValidate();
     setSignIn(!isSignIn);
   };
 
@@ -38,41 +34,30 @@ const auth = (props) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validate = () => {
-    let errors = { isValid: "" };
-    if (formData["email"].length === 0) {
-      errors.email = "Chua dien email";
-      errors.isValid = "error";
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.email) {
+      errors.email = "Email is required!";
+    } else if (!regex.test(values.email)) {
+      errors.email = "This is not a valid email format!";
     }
-    if (formData["password"].length === 0) {
-      errors.password = "Chua dien password";
-      errors.isValid = "error";
-    }
-    if (formData["firstName"].length === 0) {
-      errors.firstName = "Chua dien firstName";
-      errors.isValid = "error";
-    }
-    if (formData["lastName"].length === 0) {
-      errors.lastName = "Chua dien lastName";
-      errors.isValid = "error";
-    }
-    if (formData["confirmPassword"].length === 0) {
-      errors.confirmPassword = "Chua dien confirmPassword";
-      errors.isValid = "error";
+    if (!values.password) {
+      errors.password = "Password is required";
+    } else if (values.password.length < 4) {
+      errors.password = "Password must be more than 4 characters";
+    } else if (values.password.length > 10) {
+      errors.password = "Password cannot exceed more than 10 characters";
     }
     return errors;
   };
 
+  console.log(formData);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    /*     const err = validate();  
-    console.log(err);
-    if (err.isValid === "error") {
-      setErrorsMessage(err);
-      return;
-    } else {
-    } */
 
+    setFormErrors(validate(formData));
     if (isSignIn) {
       dispatch(signin(formData, navigate));
     } else {
@@ -80,7 +65,6 @@ const auth = (props) => {
     }
   };
 
-  console.log();
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
     const token = res?.tokenId;
@@ -112,7 +96,7 @@ const auth = (props) => {
                   placeholder="FirstName"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{errorsMessage.firstName}</div>
+                <div>{formErrors.firstName}</div>
                 <input
                   type="text"
                   name="lastName"
@@ -120,7 +104,7 @@ const auth = (props) => {
                   placeholder="LastName"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{errorsMessage.lastName}</div>
+                <div>{formErrors.lastName}</div>
               </div>
               <input
                 type="email"
@@ -129,7 +113,7 @@ const auth = (props) => {
                 placeholder="Email Adress"
                 className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
               />
-              <div>{errorsMessage.email}</div>
+              <div>{formErrors.email}</div>
               <div className="w-full relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -138,7 +122,7 @@ const auth = (props) => {
                   placeholder="Password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{errorsMessage.password}</div>
+                <div>{formErrors.password}</div>
               </div>
               <div className="w-full relative">
                 <input
@@ -148,7 +132,7 @@ const auth = (props) => {
                   placeholder="Repeat password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{errorsMessage.confirmPassword}</div>
+                <div>{formErrors.confirmPassword}</div>
               </div>
               <button type="submit" className=" bg-blue-600 text-white w-full py-1 my-4 rounded-[5px] cursor-pointer">
                 SIGN UP
@@ -170,7 +154,7 @@ const auth = (props) => {
                 placeholder="Email Adress"
                 className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
               />
-              <div className="  text-error">{errorsMessage.email}</div>
+              <div className="  text-error">{formErrors.email}</div>
 
               <div className="w-full relative">
                 <input
@@ -180,7 +164,7 @@ const auth = (props) => {
                   placeholder="Password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div className=" text-error">{errorsMessage.password}</div>
+                <div className=" text-error">{formErrors.password}</div>
                 {showPassword ? (
                   <>
                     <AiFillEyeInvisible size={22} className="absolute top-8 right-4 cursor-pointer" onClick={handleShowPassword} />

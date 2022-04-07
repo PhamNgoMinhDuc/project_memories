@@ -1,5 +1,5 @@
-import { FETCH_ALL, FETCH_BY_SEARCH, FETCH_POST, CREATE, UPDATE, DELETE, LIKE, COMMENT, START_LOADING, END_LOADING } from "../constants/actionsTyoe";
-export default (state = { isLoading: true, posts: [] }, action) => {
+import { FETCH_ALL, FETCH_BY_SEARCH, FETCH_POST, CREATE, UPDATE, DELETE, LIKE, COMMENT, START_LOADING, END_LOADING, ERR } from "../constants/actionsTyoe";
+export default (state = { isLoading: true, posts: [], err: [] }, action) => {
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };
@@ -11,6 +11,8 @@ export default (state = { isLoading: true, posts: [] }, action) => {
       return { ...state, post: action.payload };
     case FETCH_BY_SEARCH:
       return { ...state, posts: action.payload };
+    case ERR:
+      return { ...state, err: action.payload };
     case CREATE:
       return { ...state, posts: [...state.posts, action.payload] };
     case UPDATE:

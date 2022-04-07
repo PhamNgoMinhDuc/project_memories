@@ -1,9 +1,12 @@
+import { postSignIn, postSignUp, postUpdateUser, changePassword } from "../controllers/users.js";
 import Express from "express";
-import { postSignIn, postSignUp } from "../controllers/users.js";
 
 const router = Express.Router();
 
 router.post("/signin", postSignIn);
 router.post("/signup", postSignUp);
+
+router.patch("/:id", postUpdateUser);
+router.patch("/:id/changePassword", changePassword);
 
 export default router;

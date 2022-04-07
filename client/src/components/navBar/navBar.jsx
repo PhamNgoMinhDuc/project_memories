@@ -2,38 +2,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import decode from "jwt-decode";
+import { AiOutlineMenu } from "react-icons/ai";
 
 import memories from "../../images/memories.png";
 
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { BsFillSunFill } from "react-icons/bs";
-import { FaMoon } from "react-icons/fa";
-
-import useDarkMode from "../../useDarkMode";
-
 const navBar = (props) => {
-  const { isMobile } = props;
+  const { toggle } = props;
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const [openMenu, setOpenMenu] = useState(false);
-  const [isDarkMode, toggleDarkMode] = useDarkMode();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
-  const handlMenu = () => {
-    setOpenMenu(!openMenu);
-  };
-
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-
-    navigate("/");
-
-    setUser(null);
-  };
-
   useEffect(() => {
     const token = user?.token;
 
@@ -52,97 +29,24 @@ const navBar = (props) => {
         </div>
       </Link>
 
-      <div className=" flex items-center gap-10 font-normal">
-        {!openMenu && isMobile ? (
+      <div className=" flex gap-4 justify-center items-center">
+        {!user && toggle ? (
+          <Link to="/auth">
+            <button className="bg-blue-600 btn">LOGIN</button>
+          </Link>
+        ) : user && toggle ? (
           <>
-            <AiOutlineMenu className=" cursor-pointer" onClick={handlMenu} />
+            <div className="flex justify-center items-center gap-3">
+              <img className="rounded-full w-5 h-5" src={user?.result.imageUrl} alt="img" /> {user?.result.name}
+            </div>
           </>
-        ) : openMenu && isMobile ? (
-          <>
-            <AiOutlineClose className=" cursor-pointer" onClick={handlMenu} />
-          </>
-        ) : (
-          <>
-            <ul className="flex items-center justify-center gap-6">
-              <li>
-                {isDarkMode ? (
-                  <>
-                    <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                      <BsFillSunFill size={20} color="#ffeb3b" />
-                      LightMode
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                      <FaMoon size={20} color="#885dec" />
-                      DarkMode
-                    </div>
-                  </>
-                )}
-              </li>
-              {user ? (
-                <>
-                  <div className="flex items-center justify-center gap-5">
-                    <li>{user.result.name}</li>
-                    <li>
-                      <button onClick={handleLogout} className=" bg-red-600 btn">
-                        LOGUOT
-                      </button>
-                    </li>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <Link to="/auth">
-                      <button className=" bg-blue-600 btn">LOGIN</button>
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </>
-        )}
-        {openMenu && isMobile && (
-          <ul className="absolute flex flex-col gap-2 top-12 right-8 bg-white border-black px-4 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)] before-menu">
-            <li>
-              {isDarkMode ? (
-                <>
-                  <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                    <BsFillSunFill size={20} color="#ffeb3b" />
-                    LightMode
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
-                    <FaMoon size={20} color="#885dec" />
-                    DarkMode
-                  </div>
-                </>
-              )}
-            </li>
-            {user ? (
-              <>
-                <div className="flex flex-col gap-2 items-center ">
-                  <li>{user.result.name}</li>
-                  <li>
-                    <button className=" bg-red-600 btn">LOGUOT</button>
-                  </li>
-                </div>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link to="/auth">
-                    <button className=" bg-blue-600 btn">LOGIN</button>
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        )}
+        ) : null}
+        {toggle ? (
+          <button className=" cursor-pointer flex gap-2 items-center justify-center" onClick={toggle}>
+            Menu
+            <AiOutlineMenu />
+          </button>
+        ) : null}
       </div>
     </div>
   );

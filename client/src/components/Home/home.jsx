@@ -9,6 +9,9 @@ import Search from "../Search/search";
 import Posts from "../Posts/posts";
 import NavBar from "../navBar/navBar";
 import Pagination from "../Pagination/pagination";
+import Modal from "../Modal/modal";
+
+import useModal from "../../useModal";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -17,17 +20,23 @@ function useQuery() {
 const home = (props) => {
   const { isMobile } = props;
   const [currentId, setCurrentId] = useState(0);
+
+  const { isShowing, toggle } = useModal();
   const dispatch = useDispatch();
 
   const query = useQuery();
   const page = query.get("page") || 1;
+  // eslint-disable-next-line no-unused-vars
   const searchQuery = query.get("searchQuery");
+
   useEffect(() => {
     dispatch(getPosts());
   }, [currentId, dispatch]);
+
   return (
     <div>
-      <NavBar isMobile={isMobile} />
+      <Modal isShowing={isShowing} hide={toggle} isMobile={isMobile} />
+      <NavBar isMobile={isMobile} toggle={toggle} />
       <div className="lg:flex md:flex sm:flex gap-4 px-4 pt-20 ">
         <div className=" lg:flex-auto lg:w-[20%] md:flex-auto md:w-[25%] sm:flex-auto sm:w-[30%]">
           <Search />

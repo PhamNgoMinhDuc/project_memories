@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useParams } from "react-router-dom";
-import NavBar from "../navBar/navBar";
+
 import { getPost, getPostsBySearch } from "../../redux/actions/postsAction";
+
+import NavBar from "../navBar/navBar";
 import Comment from "./comment";
 
 const postDetails = (props) => {
@@ -13,6 +15,7 @@ const postDetails = (props) => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
 
   const { id } = useParams();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { AiFillCloseCircle } from "react-icons/ai";
+
 import { getPostsBySearch } from "../../redux/actions/postsAction";
 
 const form = () => {
@@ -19,7 +21,6 @@ const form = () => {
     } else {
       navigation("/home");
     }
-    console.log(tags);
   };
 
   const removeTags = (indexToRemove) => {

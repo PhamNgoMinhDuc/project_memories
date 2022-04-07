@@ -1,16 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
-import { AiFillLike, AiOutlineDelete, AiFillEdit, AiOutlineLike } from "react-icons/ai";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
+import { AiFillLike, AiOutlineDelete, AiFillEdit, AiOutlineLike } from "react-icons/ai";
+
 import { deletePost, likePost } from "../../../redux/actions/postsAction";
+
 const post = (props) => {
   const { post, setCurrentId } = props;
+  const [likes, setLikes] = useState(post?.likes);
+
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("profile"));
-  const [likes, setLikes] = useState(post?.likes);
 
   const openPost = () => {
     navigate(`/home/${post._id}`);

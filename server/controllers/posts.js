@@ -41,10 +41,37 @@ export const postPosts = async (req, res) => {
   const post = req.body;
   const newPostsMessage = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString() });
   try {
-    await newPostsMessage.save();
-    res.status(201).json(newPostsMessage);
+    /* await newPostsMessage.save(); */
+    /* res.status(201).json(newPostsMessage); */
+    let err = false;
+    let message = { title: "", message: "", tags: "", selectedFile: "" };
+    if (newPostsMessage.title.length <= 0) {
+      message.title = "Chua nhap title";
+      err = true;
+    }
+    if (newPostsMessage.message.length <= 0) {
+      message.message = "Chua nhap message";
+      err = true;
+    }
+    if (newPostsMessage.tags.length <= 0) {
+      message.tags = "Chua nhap tags";
+      err = true;
+    }
+    if (newPostsMessage.selectedFile.length <= 0) {
+      message.selectedFile = "Chua nhap selectedFile";
+      err = true;
+    }
+
+    if (err === false) {
+      await newPostsMessage.save();
+      res.status(201).json(newPostsMessage);
+    } else {
+      res.status(409).json({ message: message });
+    }
+
+    res.status(201).json(newPostsMessage.title.length);
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(409).json(error.message);
   }
 };
 
