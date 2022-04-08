@@ -21,7 +21,7 @@ const post = (props) => {
     navigate(`/home/${post._id}`);
   };
 
-  const userId = user?.result.googleId || user?.result?._id;
+  const userId = user?.result?.googleId || user?.result?._id;
   const hasLikePost = post.likes.find((like) => like === userId);
 
   const handleClick = async () => {

@@ -6,7 +6,7 @@ const router = Express.Router();
 router.post("/signin", postSignIn);
 router.post("/signup", postSignUp);
 
-router.patch("/:id", postUpdateUser);
+router.patch("/:id/updateUser", postUpdateUser);
 router.patch("/:id/changePassword", changePassword);
 
 export default router;

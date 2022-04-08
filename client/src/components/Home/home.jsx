@@ -10,6 +10,7 @@ import Posts from "../Posts/posts";
 import NavBar from "../navBar/navBar";
 import Pagination from "../Pagination/pagination";
 import Modal from "../Modal/modal";
+import ModalUser from "../Modal/modalUser";
 
 import useModal from "../../useModal";
 
@@ -21,7 +22,8 @@ const home = (props) => {
   const { isMobile } = props;
   const [currentId, setCurrentId] = useState(0);
 
-  const { isShowing, toggle } = useModal();
+  const { isShowing, toggle, isShowingUser, toggleUser } = useModal();
+
   const dispatch = useDispatch();
 
   const query = useQuery();
@@ -35,7 +37,8 @@ const home = (props) => {
 
   return (
     <div>
-      <Modal isShowing={isShowing} hide={toggle} isMobile={isMobile} />
+      <Modal isShowing={isShowing} toggle={toggle} toggleUser={toggleUser} isMobile={isMobile} />
+      <ModalUser isShowingUser={isShowingUser} toggleUser={toggleUser} isMobile={isMobile} />
       <NavBar isMobile={isMobile} toggle={toggle} />
       <div className="lg:flex md:flex sm:flex gap-4 px-4 pt-20 ">
         <div className=" lg:flex-auto lg:w-[20%] md:flex-auto md:w-[25%] sm:flex-auto sm:w-[30%]">

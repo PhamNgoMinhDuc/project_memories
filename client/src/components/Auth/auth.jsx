@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GoogleLogin from "react-google-login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye, AiOutlineGooglePlus } from "react-icons/ai";
 
@@ -9,15 +9,17 @@ import { signin, signup } from "../../redux/actions/authAction";
 
 import NavBar from "../navBar/navBar";
 
-const initialState = { firstName: "", lastName: "", email: "", password: "", confirmPassword: "" };
-
 const auth = (props) => {
   const { isMobile } = props;
   const [isSignIn, setSignIn] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
-  const [formData, setFormData] = useState(initialState);
-  const [formErrors, setFormErrors] = useState({});
+  const [formDataSignIn, setformDataSignIn] = useState({ email: "", password: "" });
+  const [formDataSignUp, setformDataSignUp] = useState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "" });
+  const [errorSigIn, setErrorSigIn] = useState({ email: "", password: "" });
+  const [errorSigUp, setErrorSigUp] = useState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "" });
+
+  const errSignIn = useSelector((state) => state.posts.err.errSignIn);
+  const errSignUp = useSelector((state) => state.posts.err.errSignUp);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,38 +32,28 @@ const auth = (props) => {
     setShowPassword(!showPassword);
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChangeSignIn = (e) => {
+    setformDataSignIn({ ...formDataSignIn, [e.target.name]: e.target.value });
+  };
+  const handleChangeSignUp = (e) => {
+    setformDataSignUp({ ...formDataSignUp, [e.target.name]: e.target.value });
   };
 
-  const validate = (values) => {
-    const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.email) {
-      errors.email = "Email is required!";
-    } else if (!regex.test(values.email)) {
-      errors.email = "This is not a valid email format!";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    } else if (values.password.length < 4) {
-      errors.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-      errors.password = "Password cannot exceed more than 10 characters";
-    }
-    return errors;
-  };
+  useEffect(() => {
+    setErrorSigIn(errSignIn);
+  }, [errSignIn]);
 
-  console.log(formData);
+  useEffect(() => {
+    setErrorSigUp(errSignUp);
+  }, [errSignUp]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setFormErrors(validate(formData));
     if (isSignIn) {
-      dispatch(signin(formData, navigate));
+      dispatch(signin(formDataSignIn, navigate));
     } else {
-      dispatch(signup(formData, navigate));
+      dispatch(signup(formDataSignUp, navigate));
     }
   };
 
@@ -92,47 +84,48 @@ const auth = (props) => {
                 <input
                   type="text"
                   name="firstName"
-                  onChange={handleChange}
+                  onChange={handleChangeSignUp}
                   placeholder="FirstName"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{formErrors.firstName}</div>
                 <input
                   type="text"
                   name="lastName"
-                  onChange={handleChange}
+                  onChange={handleChangeSignUp}
                   placeholder="LastName"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{formErrors.lastName}</div>
               </div>
+              {errorSigUp && <div className=" text-error">{errorSigUp.firstName}</div>}
+              {errorSigUp && <div className=" text-error">{errorSigUp.lastName}</div>}
+
               <input
                 type="email"
                 name="email"
-                onChange={handleChange}
+                onChange={handleChangeSignUp}
                 placeholder="Email Adress"
                 className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
               />
-              <div>{formErrors.email}</div>
+              {errorSigUp && <div className=" text-error">{errorSigUp.email}</div>}
               <div className="w-full relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  onChange={handleChange}
+                  onChange={handleChangeSignUp}
                   placeholder="Password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{formErrors.password}</div>
+                {errorSigUp && <div className=" text-error">{errorSigUp.password}</div>}
               </div>
               <div className="w-full relative">
                 <input
-                  type={showRepeatPassword ? "text" : "password"}
+                  type="password"
                   name="confirmPassword"
-                  onChange={handleChange}
+                  onChange={handleChangeSignUp}
                   placeholder="Repeat password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div>{formErrors.confirmPassword}</div>
+                {errorSigUp && <div className=" text-error">{errorSigUp.confirmPassword}</div>}
               </div>
               <button type="submit" className=" bg-blue-600 text-white w-full py-1 my-4 rounded-[5px] cursor-pointer">
                 SIGN UP
@@ -150,21 +143,21 @@ const auth = (props) => {
               <input
                 type="email"
                 name="email"
-                onChange={handleChange}
+                onChange={handleChangeSignIn}
                 placeholder="Email Adress"
                 className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
               />
-              <div className="  text-error">{formErrors.email}</div>
+              {errorSigIn && <div className="text-error">{errorSigIn.email}</div>}
 
               <div className="w-full relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  onChange={handleChange}
+                  onChange={handleChangeSignIn}
                   placeholder="Password"
                   className="w-full border-2 border-[rgb(200 201 203 / 50%)] h-15 mt-5 py-2 px-4 placeholder:text-black dark:bg-[#3a3b3c] dark:placeholder:text-[#e4e6eb] dark:border-black"
                 />
-                <div className=" text-error">{formErrors.password}</div>
+                {errorSigIn && <div className=" text-error">{errorSigIn.password}</div>}
                 {showPassword ? (
                   <>
                     <AiFillEyeInvisible size={22} className="absolute top-8 right-4 cursor-pointer" onClick={handleShowPassword} />

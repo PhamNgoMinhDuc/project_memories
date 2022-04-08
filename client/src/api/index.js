@@ -10,6 +10,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+/* posts */
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 
 export const fetchPost = (id) => API.get(`/posts/${id}`);
@@ -26,5 +27,11 @@ export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 
 export const comment = (id, commentPost) => API.post(`/posts/${id}/commentPost`, { commentPost });
 
+/* user */
 export const signIn = (formData) => API.post(`/user/signin`, formData);
+
 export const signUp = (formData) => API.post(`/user/signup`, formData);
+
+export const changeInfor = (id, formData) => API.patch(`/user/${id}/updateUser`, formData);
+
+export const changePassword = (id, formData) => API.patch(`/user/${id}/changePassword`, formData);

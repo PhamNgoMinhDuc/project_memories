@@ -11,7 +11,7 @@ import { FaMoon } from "react-icons/fa";
 import useDarkMode from "../../useDarkMode";
 
 const modal = (props) => {
-  const { isShowing, hide, isMobile } = props;
+  const { isShowing, toggle, toggleUser, isMobile } = props;
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
   const [isDarkMode, toggleDarkMode] = useDarkMode();
@@ -19,6 +19,11 @@ const modal = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleModalUser = () => {
+    toggle();
+    toggleUser();
+  };
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -38,10 +43,10 @@ const modal = (props) => {
   }, [location]);
 
   return isShowing ? (
-    <div className="w-full h-screen fixed flex z-[1000]">
-      <div className=" bg-[rgba(0,0,0,0.4)] h-full w-[80%]" onClick={hide}></div>
-      <div className=" bg-white w-[20%] h-full relative flex flex-col p-10 items-center">
-        <button className=" absolute cursor-pointer top-5 right-5" onClick={hide}>
+    <div className="w-full h-screen fixed flex z-[1000] ">
+      <div className=" bg-[rgba(0,0,0,0.4)] h-full w-[80%]" onClick={toggle}></div>
+      <div className=" bg-white w-[20%] h-full relative flex flex-col p-10 items-center dark:bg-black">
+        <button className=" absolute cursor-pointer top-5 right-5" onClick={toggle}>
           <AiOutlineClose className="" />
         </button>
         <h2 className=" text-xl font-bold">Menu</h2>
@@ -49,7 +54,16 @@ const modal = (props) => {
         <div className=" mt-20 w-full border-b-2"></div>
         {user ? (
           <>
-            <div className="text-modal">{user.result.name}</div>
+            <div className="text-modal">{user?.result?.name}</div>
+            <div
+              className="text-modal cursor-pointer"
+              onClick={() => {
+                toggle();
+                toggleUser();
+              }}
+            >
+              Cập nhập thông tin
+            </div>
           </>
         ) : null}
 

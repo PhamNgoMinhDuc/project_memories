@@ -6,11 +6,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 
 import memories from "../../images/memories.png";
-
+import avatar from "../../images/avatar.jpg";
 const navBar = (props) => {
   const { toggle } = props;
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const location = useLocation();
+
   useEffect(() => {
     const token = user?.token;
 
@@ -37,7 +38,7 @@ const navBar = (props) => {
         ) : user && toggle ? (
           <>
             <div className="flex justify-center items-center gap-3">
-              <img className="rounded-full w-5 h-5" src={user?.result.imageUrl} alt="img" /> {user?.result.name}
+              <img className="rounded-full w-5 h-5" src={user?.result?.imageUrl || user?.result?.avatar || avatar} alt="img" /> {user?.result?.name}
             </div>
           </>
         ) : null}

@@ -45,8 +45,8 @@ export const createPosts = (post) => async (dispatch) => {
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
     console.log(error);
-    let data = error.response.data;
-    dispatch({ type: ERR, payload: data });
+    let err = error.response.data;
+    dispatch({ type: ERR, payload: err });
   }
 };
 
