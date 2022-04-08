@@ -109,7 +109,7 @@ export const postUpdateUser = async (req, res) => {
         const updateUser = new User({ name: `${firstName} ${lastName}`, avatar: avatar, _id: id });
         await User.findByIdAndUpdate(id, updateUser, { new: true });
 
-        res.status(202).json(updateUser);
+        res.status(202).json({ result: updateUser });
       } else {
         res.status(400).json({ errUpdate: message });
       }

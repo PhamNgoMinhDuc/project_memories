@@ -23,7 +23,7 @@ const navBar = (props) => {
 
   return (
     <div className="fixed w-full top-0 z-50 bg-white flex items-center justify-between border-1 border-black px-8 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)] dark:bg-[#242526] dark:text-[#dddee3]">
-      <Link to="/">
+      <Link to="/home">
         <div className=" flex gap-2 font-bold text-3xl ">
           MEMORIE
           <img src={memories} width={32} alt="" />

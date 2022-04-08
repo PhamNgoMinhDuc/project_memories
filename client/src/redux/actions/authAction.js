@@ -1,5 +1,5 @@
 import * as api from "../../api/index.js";
-import { AUTH, ERR, UPDATE } from "../constants/actionsTyoe";
+import { AUTH, ERR } from "../constants/actionsTyoe";
 
 export const signin = (formData, navigate) => async (dispatch) => {
   try {
@@ -27,12 +27,12 @@ export const signup = (formData, navigate) => async (dispatch) => {
   }
 };
 
-export const changeInfor = (id, formData) => async (dispatch) => {
+export const changeInfor = (id, formData, navigate) => async (dispatch) => {
   try {
     const { data } = await api.changeInfor(id, formData);
-    console.log(data);
-    dispatch({ type: UPDATE, data });
+
     dispatch({ type: AUTH, data });
+    navigate("/home");
   } catch (error) {
     console.log(error);
     let err = error.response.data;
@@ -40,11 +40,12 @@ export const changeInfor = (id, formData) => async (dispatch) => {
   }
 };
 
-export const changePassword = (id, formData) => async (dispatch) => {
+export const changePassword = (id, formData, navigate) => async (dispatch) => {
   try {
     const { data } = await api.changePassword(id, formData);
-    console.log(data);
-    dispatch({ type: UPDATE, data });
+
+    dispatch({ type: AUTH, data });
+    navigate("/home");
   } catch (error) {
     let err = error.response.data;
     dispatch({ type: ERR, payload: err });

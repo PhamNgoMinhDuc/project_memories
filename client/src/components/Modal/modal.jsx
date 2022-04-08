@@ -11,7 +11,7 @@ import { FaMoon } from "react-icons/fa";
 import useDarkMode from "../../useDarkMode";
 
 const modal = (props) => {
-  const { isShowing, toggle, toggleUser, isMobile } = props;
+  const { isShowing, toggle, toggleUser } = props;
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
   const [isDarkMode, toggleDarkMode] = useDarkMode();
@@ -19,11 +19,6 @@ const modal = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleModalUser = () => {
-    toggle();
-    toggleUser();
-  };
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });

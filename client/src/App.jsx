@@ -8,42 +8,16 @@ import PostDetails from "./components/PostDetails/postDetails";
 import NotFound from "./components/NotFound/notFound";
 
 const App = () => {
-  const [windowSize, setWindowSize] = useState({
-    width: undefined,
-    height: undefined,
-  });
-  const [isMobile, setMobile] = useState(false);
   const user = JSON.parse(localStorage.getItem("profile"));
-
-  useEffect(() => {
-    const handleSize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-    window.addEventListener("resize", handleSize);
-    handleSize();
-    return () => window.removeEventListener("resize", handleSize);
-  }, []);
-
-  useEffect(() => {
-    if (windowSize.width <= 769) {
-      setMobile(true);
-    } else {
-      setMobile(false);
-    }
-  }, [windowSize]);
-
   return (
     <BrowserRouter>
       <div className=" dark:bg-black dark:text-[#dddee3] ">
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home isMobile={isMobile} />} />
-          <Route path="/home/search" element={<Home isMobile={isMobile} />} />
-          <Route path="/home/:id" element={<PostDetails isMobile={isMobile} />} />
-          <Route path="/auth" element={!user ? <Auth isMobile={isMobile} /> : <Navigate to="/home" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/home/search" element={<Home />} />
+          <Route path="/home/:id" element={<PostDetails />} />
+          <Route path="/auth" element={!user ? <Auth /> : <Navigate to="/home" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

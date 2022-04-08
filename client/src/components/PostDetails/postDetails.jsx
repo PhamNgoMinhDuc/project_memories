@@ -10,8 +10,7 @@ import { getPost, getPostsBySearch } from "../../redux/actions/postsAction";
 import NavBar from "../navBar/navBar";
 import Comment from "./comment";
 
-const postDetails = (props) => {
-  const { isMobile } = props;
+const postDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
 
   const { id } = useParams();
@@ -51,7 +50,7 @@ const postDetails = (props) => {
   const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
   return (
     <div>
-      <NavBar isMobile={isMobile} />
+      <NavBar />
       <div>
         <div className="h-20"></div>
         <div className="w-full h-auto form ">

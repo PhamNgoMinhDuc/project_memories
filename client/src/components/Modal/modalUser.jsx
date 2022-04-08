@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
-
-import { changeInfor, changePassword } from "../../redux/actions/authAction";
+import { useNavigate } from "react-router-dom";
+import { changeInfor, changePassword, errors } from "../../redux/actions/authAction";
 
 const modalUser = (props) => {
-  const { isShowingUser, toggleUser, isMobile } = props;
+  const { isShowingUser, toggleUser } = props;
   const user = JSON.parse(localStorage.getItem("profile"));
   const [switchBtn, setSwitchBtn] = useState(true);
   const [formDataInfor, setformDataInfor] = useState({ firstName: "", lastName: "", avatar: "" });
@@ -14,7 +14,7 @@ const modalUser = (props) => {
   const [errorInfor, setErrorInfor] = useState({ firstName: "", lastName: "", avatar: "" });
   const [errorPasswod, setErrorPasswod] = useState({ oldPassword: "", newPassword: "" });
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const errUpdate = useSelector((state) => state.auth.err.errUpdate);
   const errPassword = useSelector((state) => state.auth.err.errPassword);
 
@@ -30,9 +30,9 @@ const modalUser = (props) => {
     e.preventDefault();
 
     if (switchBtn) {
-      dispatch(changeInfor(user?.result?._id, formDataInfor));
+      dispatch(changeInfor(user?.result?._id, formDataInfor, navigate));
     } else {
-      dispatch(changePassword(user?.result?._id, formDataPasswod));
+      dispatch(changePassword(user?.result?._id, formDataPasswod, navigate));
     }
   };
 

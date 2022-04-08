@@ -9,8 +9,7 @@ import { signin, signup } from "../../redux/actions/authAction";
 
 import NavBar from "../navBar/navBar";
 
-const auth = (props) => {
-  const { isMobile } = props;
+const auth = () => {
   const [isSignIn, setSignIn] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formDataSignIn, setformDataSignIn] = useState({ email: "", password: "" });
@@ -73,7 +72,7 @@ const auth = (props) => {
 
   return (
     <div className="h-screen flex justify-center items-center">
-      <NavBar isMobile={isMobile} />
+      <NavBar />
 
       <form onSubmit={handleSubmit}>
         <div className=" w-96 h-auto border-2 rounded-[10px] p-4  px-4 py-2 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.5)] dark:bg-[#242526] dark:text-[#dddee3] dark:border-black flex flex-col  items-center">

@@ -18,8 +18,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const home = (props) => {
-  const { isMobile } = props;
+const home = () => {
   const [currentId, setCurrentId] = useState(0);
 
   const { isShowing, toggle, isShowingUser, toggleUser } = useModal();
@@ -37,9 +36,9 @@ const home = (props) => {
 
   return (
     <div>
-      <Modal isShowing={isShowing} toggle={toggle} toggleUser={toggleUser} isMobile={isMobile} />
-      <ModalUser isShowingUser={isShowingUser} toggleUser={toggleUser} isMobile={isMobile} />
-      <NavBar isMobile={isMobile} toggle={toggle} />
+      <Modal isShowing={isShowing} toggle={toggle} toggleUser={toggleUser} />
+      <ModalUser isShowingUser={isShowingUser} toggleUser={toggleUser} />
+      <NavBar toggle={toggle} />
       <div className="lg:flex md:flex sm:flex gap-4 px-4 pt-20 ">
         <div className=" lg:flex-auto lg:w-[20%] md:flex-auto md:w-[25%] sm:flex-auto sm:w-[30%]">
           <Search />
