@@ -43,16 +43,13 @@ export const postPosts = async (req, res) => {
   try {
     let message = {};
     if (newPostsMessage.title.length <= 0) {
-      message.title = "Chua nhap title";
+      message.title = "Title is empty";
     }
     if (newPostsMessage.message.length <= 0) {
-      message.message = "Chua nhap message";
-    }
-    if (newPostsMessage.tags.length <= 0) {
-      message.tags = "Chua nhap tags";
+      message.message = "Mesage is empty";
     }
     if (newPostsMessage.selectedFile.length <= 0) {
-      message.selectedFile = "Chua nhap selectedFile";
+      message.selectedFile = "File is empty";
     }
 
     if (Object.keys(message).length === 0) {
@@ -89,19 +86,17 @@ export const DeletePosts = async (req, res) => {
 
 export const likePost = async (req, res) => {
   const { id } = req.params;
-
-  if (!req.userId) return res.json({ message: "Unauthenticated!" });
+  const userId = String(req.userId);
+  if (!userId) return res.json({ message: "Unauthenticated!" });
 
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
   const post = await PostMessage.findById(id);
-
-  const index = post.likes.findIndex((id) => id === String(req.userId));
-
+  const index = post.likes.findIndex((id) => id === userId);
   if (index === -1) {
-    post.likes.push(req.userId);
+    post.likes.push(userId);
   } else {
-    post.likes.filter((id) => id !== String(req.userId));
+    post.likes = post.likes.filter((item) => item !== userId);
   }
 
   const likePost = await PostMessage.findByIdAndUpdate(id, post, { new: true });

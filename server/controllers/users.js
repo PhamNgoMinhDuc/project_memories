@@ -18,11 +18,11 @@ export const postSignIn = async (req, res) => {
     }
 
     if (email.length <= 0) {
-      message.email = "Chua Dien email";
+      message.email = "Email is empty";
     }
 
     if (password.length <= 0) {
-      message.password = "Chua Dien password";
+      message.password = "Password is empty";
     }
     if (Object.keys(message).length === 0) {
       const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, "test", { expiresIn: "1h" });
@@ -50,22 +50,22 @@ export const postSignUp = async (req, res) => {
     }
 
     if (email.length <= 0) {
-      message.email = "Chua Dien email";
+      message.email = "Email is empty";
     }
 
     if (password.length <= 0) {
-      message.password = "Chua Dien password";
+      message.password = "Password is empty";
     }
 
     if (confirmPassword.length <= 0) {
-      message.confirmPassword = "Chua Dien confirmPassword";
+      message.confirmPassword = "Confirm password is empty";
     }
 
     if (firstName.length <= 0) {
-      message.firstName = "Chua Dien firstName";
+      message.firstName = "First name is empty";
     }
     if (lastName.length <= 0) {
-      message.lastName = "Chua Dien lastName";
+      message.lastName = "Last name is empty";
     }
 
     if (Object.keys(message).length === 0) {
@@ -95,21 +95,21 @@ export const postUpdateUser = async (req, res) => {
       res.status(400).json({ message: "User doesn't exist." });
     } else {
       if (avatar.length <= 0) {
-        message.avatar = "Chua Dien avartar";
+        message.avatar = "Avatar is empty";
       }
 
       if (firstName.length <= 0) {
-        message.firstName = "Chua Dien firstName";
+        message.firstName = "First name is empty";
       }
 
       if (lastName.length <= 0) {
-        message.lastName = "Chua Dien lastName";
+        message.lastName = "Last name is empty";
       }
       if (Object.keys(message).length === 0) {
-        const updateUser = new User({ name: `${firstName} ${lastName}`, avatar: avatar, _id: id });
-        await User.findByIdAndUpdate(id, updateUser, { new: true });
-
-        res.status(202).json({ result: updateUser });
+        const user = new User({ name: `${firstName} ${lastName}`, avatar: avatar, _id: id });
+        const updateUser = await User.findByIdAndUpdate(id, user, { new: true });
+        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, "test", { expiresIn: "1h" });
+        res.status(202).json({ result: updateUser, token });
       } else {
         res.status(400).json({ errUpdate: message });
       }
@@ -131,24 +131,24 @@ export const changePassword = async (req, res) => {
       const isPasswordCorrect = await bcrypt.compare(oldPassword, existingUser.password);
 
       if (!isPasswordCorrect) {
-        message.oldPassword = "sai mat khau";
+        message.oldPassword = "Wrong password";
       }
 
       if (newPassword.length <= 0) {
-        message.newPassword = "Chua Dien newPassword";
+        message.newPassword = "New password is empty";
       }
 
       if (oldPassword.length <= 0) {
-        message.oldPassword = "Chua Dien oldPassword";
+        message.oldPassword = "Old password is empty";
       }
 
       if (Object.keys(message).length === 0) {
         const hashedPassword = await bcrypt.hash(newPassword, 12);
 
-        const updatePassword = new User({ password: hashedPassword, _id: id });
-        await User.findByIdAndUpdate(id, updatePassword, { new: true });
-
-        res.status(200).json(updatePassword);
+        const Password = new User({ password: hashedPassword, avatar: existingUser.avatar, _id: id });
+        const updatePassword = await User.findByIdAndUpdate(id, Password, { new: true });
+        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, "test", { expiresIn: "1h" });
+        res.status(202).json({ result: updatePassword, token });
       } else {
         res.status(400).json({ errPassword: message });
       }

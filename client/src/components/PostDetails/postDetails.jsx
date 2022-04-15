@@ -31,7 +31,7 @@ const postDetails = () => {
   }, [post]);
 
   const openPost = (_id) => {
-    navigate(`/home/${_id}`);
+    navigate(`/posts/${_id}`);
   };
 
   if (!post) return null;
@@ -39,7 +39,7 @@ const postDetails = () => {
   if (isLoading)
     return (
       <>
-        <div className=" md:flex-auto md:w-[80%]">
+        <div className=" md:flex-auto md:w-[100%] h-screen">
           <div className="gap-4 mt-4 md:mt-0 w-full h-full flex justify-center">
             <div className=" h-20 w-20 border-[10px] border-t-8 border-t-blue-600 md:mt-60 rounded-full animate-spin mt-10"></div>
           </div>
@@ -70,15 +70,21 @@ const postDetails = () => {
           </div>
         </div>
       </div>
-      <div className="form mt-10">
+      <div className="form mt-10 ">
         {recommendedPosts.length && (
           <>
             <div>You might also like:</div>
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col md:flex-row gap-2">
               {recommendedPosts.map(({ title, message, name, likes, selectedFile, _id }) => (
                 <>
-                  <div className="form" key={_id} onClick={() => openPost(_id)}>
-                    <button>{title}</button>
+                  <div className="relative mb-10 overflow-hidden rounded-[10px] " key={_id} onClick={() => openPost(_id)}>
+                    <img
+                      src={selectedFile || "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"}
+                      alt=""
+                      className="w-full h-36 object-cover brightness-50 hover:brightness-100 transition delay-100 cursor-pointer"
+                      onClick={openPost}
+                    />
+                    <button className="absolute top-0 flex justify-between w-full p-4 text-white">{title}</button>
                   </div>
                 </>
               ))}

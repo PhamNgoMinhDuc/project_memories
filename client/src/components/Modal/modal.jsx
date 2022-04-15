@@ -8,23 +8,32 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BsFillSunFill } from "react-icons/bs";
 import { FaMoon } from "react-icons/fa";
 
+import i18n from "../../i18n";
+import { useTranslation } from "react-i18next";
 import useDarkMode from "../../useDarkMode";
+import iconVietNam from "../../images/vietnam.png";
+import iconEnglish from "../../images/english.png";
 
 const modal = (props) => {
   const { isShowing, toggle, toggleUser } = props;
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
   const [isDarkMode, toggleDarkMode] = useDarkMode();
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const changeLanguage = (e) => {
+    i18n.changeLanguage(e);
+  };
+  const lng = localStorage.getItem("i18nextLng");
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
 
-    navigate("/home");
+    navigate("/");
 
+    window.location.reload();
     setUser(null);
   };
 
@@ -40,9 +49,9 @@ const modal = (props) => {
   return isShowing ? (
     <div className="w-full h-screen fixed flex z-[1000] ">
       <div className=" bg-[rgba(0,0,0,0.4)] h-full w-[80%]" onClick={toggle}></div>
-      <div className=" bg-white w-[20%] h-full relative flex flex-col p-10 items-center dark:bg-black">
+      <div className={` bg-white w-[50%] sm:w-[40%] md:w-[30%] lg:w-[20%] h-full relative flex flex-col p-10 items-center dark:bg-black`}>
         <button className=" absolute cursor-pointer top-5 right-5" onClick={toggle}>
-          <AiOutlineClose className="" />
+          <AiOutlineClose />
         </button>
         <h2 className=" text-xl font-bold">Menu</h2>
 
@@ -57,7 +66,7 @@ const modal = (props) => {
                 toggleUser();
               }}
             >
-              Cập nhập thông tin
+              {t("modal.editProfile")}
             </div>
           </>
         ) : null}
@@ -67,24 +76,32 @@ const modal = (props) => {
             <>
               <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
                 <BsFillSunFill size={20} color="#ffeb3b" />
-                LightMode
+                {t("modal.lightMode")}
               </div>
             </>
           ) : (
             <>
               <div className="flex justify-center items-center gap-2 cursor-pointer" onClick={() => toggleDarkMode(!isDarkMode)}>
                 <FaMoon size={20} color="#885dec" />
-                DarkMode
+                {t("modal.darkMode")}
               </div>
             </>
           )}
+        </div>
+        <div className="text-modal flex gap-5">
+          <button>
+            <img src={iconVietNam} className={`w-full h-full ${lng === "en" ? "opacity-50" : ""}`} alt="iconVI" onClick={() => changeLanguage("vi")} />
+          </button>
+          <button>
+            <img src={iconEnglish} className={`w-full h-full ${lng === "vi" ? "opacity-50" : ""}`} alt="iconEN" onClick={() => changeLanguage("en")} />
+          </button>
         </div>
 
         {user ? (
           <>
             <div className="text-modal">
               <button onClick={handleLogout} className=" bg-red-600 btn">
-                LOGUOT
+                {t("btn.logout")}
               </button>
             </div>
           </>
@@ -92,7 +109,7 @@ const modal = (props) => {
           <>
             <div className="text-modal">
               <Link to="/auth">
-                <button className="bg-blue-600 btn">LOGIN</button>
+                <button className="bg-blue-600 btn">{t("btn.login")}</button>
               </Link>
             </div>
           </>

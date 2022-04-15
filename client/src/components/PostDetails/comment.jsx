@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { commentPost } from "../../redux/actions/postsAction";
-
+import { useTranslation } from "react-i18next";
 const Comment = () => {
   // eslint-disable-next-line no-use-before-define
   const [comment, setComment] = useState("");
@@ -14,7 +14,7 @@ const Comment = () => {
 
   const dispatch = useDispatch();
   const commentRef = useRef();
-
+  const { t } = useTranslation();
   const handleComment = async () => {
     const commentp = `${post.name} : ${comment}`;
     const newComment = await dispatch(commentPost(post._id, commentp));
@@ -25,7 +25,7 @@ const Comment = () => {
 
   return (
     <div className=" h-40 w-full mt-2">
-      <h2 className=" text-base font-medium">Comment</h2>
+      <h2 className=" text-base font-medium">{t("posts.comment")}</h2>
       <div className=" overflow-y-scroll overflow-x-hidden max-h-24">
         {comments.map((cm, index) => (
           <div key={index}>{cm}</div>

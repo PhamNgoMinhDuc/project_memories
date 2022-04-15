@@ -6,20 +6,20 @@ import { useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import { getPostsBySearch } from "../../redux/actions/postsAction";
-
+import { useTranslation } from "react-i18next";
 const form = () => {
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
-
+  const { t } = useTranslation();
   const dipatch = useDispatch();
   const navigation = useNavigate();
 
   const searchPost = () => {
     if (search.trim() || tags) {
       dipatch(getPostsBySearch({ search, tags: tags.join(",") }));
-      navigation(`/home/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`);
+      navigation(`/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`);
     } else {
-      navigation("/home");
+      navigation("/");
     }
   };
 
@@ -35,11 +35,11 @@ const form = () => {
 
   return (
     <div className=" h-auto mb-5 form ">
-      <h3 className=" text-center font-bold">Creating a Memory</h3>
+      <h3 className=" text-center font-bold">{t("form.searchPost")}</h3>
 
       <input
         type="text"
-        placeholder="Search Memories"
+        placeholder={t("form.searchPost")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyUp={(event) => (event.key === "Enter" ? searchPost() : null)}
@@ -56,11 +56,16 @@ const form = () => {
             </>
           ))}
         </ul>
-        <input type="text" onKeyUp={(event) => (event.key === "Enter" ? addTags(event) : null)} placeholder="Press space to add tags" className="w-full text-sm bg-transparent outline-none "></input>
+        <input
+          type="text"
+          onKeyUp={(event) => (event.key === "Enter" ? addTags(event) : null)}
+          placeholder={t("form.pressSpace")}
+          className="w-full text-sm bg-transparent outline-none placeholder:text-black dark:placeholder:text-[#e4e6eb]"
+        ></input>
       </div>
       <div>
         <button type="submit" onClick={searchPost} className=" bg-blue-600 btn mt-2">
-          SEARCH
+          {t("btn.search")}
         </button>
       </div>
     </div>

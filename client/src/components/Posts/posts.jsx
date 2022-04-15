@@ -12,7 +12,7 @@ const posts = (props) => {
     return (
       <>
         <div className=" md:flex-auto md:w-[80%]">
-          <div className="gap-4 mt-4 md:mt-0 w-full h-full flex justify-center">
+          <div className="gap-4 mt-4 md:mt-0 w-full h-screen flex justify-center">
             <div className=" h-20 w-20 border-[10px] border-t-8 border-t-blue-600 md:mt-60 rounded-full animate-spin mt-10"></div>
           </div>
         </div>
@@ -21,7 +21,7 @@ const posts = (props) => {
   return isLoading ? (
     <>
       <div className=" lg:flex-auto lg:w-[80%]">
-        <div className="gap-4 mt-4 lg:mt-0 w-full h-full flex justify-center">
+        <div className="gap-4 mt-4 lg:mt-0 w-full h-screen flex justify-center">
           <div className=" h-20 w-20 border-[10px] border-t-8 border-t-blue-600 md:mt-60 rounded-full animate-spin mt-10"></div>
         </div>
       </div>

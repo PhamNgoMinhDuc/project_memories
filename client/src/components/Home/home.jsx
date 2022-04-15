@@ -22,7 +22,7 @@ const home = () => {
   const [currentId, setCurrentId] = useState(0);
 
   const { isShowing, toggle, isShowingUser, toggleUser } = useModal();
-
+  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
   const query = useQuery();
@@ -39,7 +39,7 @@ const home = () => {
       <Modal isShowing={isShowing} toggle={toggle} toggleUser={toggleUser} />
       <ModalUser isShowingUser={isShowingUser} toggleUser={toggleUser} />
       <NavBar toggle={toggle} />
-      <div className="lg:flex md:flex sm:flex gap-4 px-4 pt-20 ">
+      <div className={`lg:flex md:flex sm:flex gap-4 px-4 pt-20 ${user ? "h-full" : "h-screen"}`}>
         <div className=" lg:flex-auto lg:w-[20%] md:flex-auto md:w-[25%] sm:flex-auto sm:w-[30%]">
           <Search />
           <Pagination page={page} />

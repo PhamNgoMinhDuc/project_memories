@@ -13,11 +13,10 @@ const App = () => {
     <BrowserRouter>
       <div className=" dark:bg-black dark:text-[#dddee3] ">
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/home/search" element={<Home />} />
-          <Route path="/home/:id" element={<PostDetails />} />
-          <Route path="/auth" element={!user ? <Auth /> : <Navigate to="/home" />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/posts/search" element={<Home />} />
+          <Route path="/posts/:id" element={<PostDetails />} />
+          <Route path="/auth" element={!user ? <Auth /> : <Navigate to="/" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

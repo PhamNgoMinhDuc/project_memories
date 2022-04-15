@@ -1,0 +1,46 @@
+{
+  "btn": {
+    "logout": "LOGOUT",
+    "login": "LOGIN",
+    "submit": "SUBMIT",
+    "search": "SEARCH",
+    "update": "Update",
+    "clear": "CLEAR"
+  },
+  "modal": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "editProfile": "Edit Profile",
+    "editPassword": "Edit Password"
+  },
+  "form": {
+    "searchPost": "Searching post",
+    "creatPost": "Creating a post",
+    "pressSpace": "Press space to add tags",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signInGG": "GOOGLE SIGN IN",
+    "signInDont": "You don't have a account?",
+    "signUpHave": "You have a account!",
+    "email": "Email",
+    "password": "Password",
+    "OldPassword": "Old Password",
+    "NewPassword": "New Password",
+    "firtsName": "Firts Name",
+    "lastName": "Last Name",
+    "repeatPassword": "Repeat Password",
+    "account": "Account",
+    "name": "Name"
+  },
+  "detail": {
+    "title": "Title",
+    "message": "Mesage",
+    "tags": "Tags"
+  },
+  "posts": {
+    "edit": "Edit",
+    "like": "Like",
+    "delete": "Delete",
+    "comment": "Comment"
+  }
+}

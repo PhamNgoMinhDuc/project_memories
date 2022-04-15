@@ -6,7 +6,7 @@ export const signin = (formData, navigate) => async (dispatch) => {
     const { data } = await api.signIn(formData);
 
     dispatch({ type: AUTH, data });
-    navigate("/home");
+    navigate("/");
   } catch (error) {
     console.log(error);
     let err = error.response.data;
@@ -19,7 +19,7 @@ export const signup = (formData, navigate) => async (dispatch) => {
     const { data } = await api.signUp(formData);
 
     dispatch({ type: AUTH, data });
-    navigate("/home");
+    navigate("/");
   } catch (error) {
     console.log(error);
     let err = error.response.data;
@@ -32,7 +32,7 @@ export const changeInfor = (id, formData, navigate) => async (dispatch) => {
     const { data } = await api.changeInfor(id, formData);
 
     dispatch({ type: AUTH, data });
-    navigate("/home");
+    navigate("/");
   } catch (error) {
     console.log(error);
     let err = error.response.data;
@@ -45,7 +45,7 @@ export const changePassword = (id, formData, navigate) => async (dispatch) => {
     const { data } = await api.changePassword(id, formData);
 
     dispatch({ type: AUTH, data });
-    navigate("/home");
+    navigate("/");
   } catch (error) {
     let err = error.response.data;
     dispatch({ type: ERR, payload: err });

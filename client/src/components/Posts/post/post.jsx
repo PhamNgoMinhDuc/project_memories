@@ -7,18 +7,19 @@ import { useDispatch } from "react-redux";
 import { AiFillLike, AiOutlineDelete, AiFillEdit, AiOutlineLike } from "react-icons/ai";
 
 import { deletePost, likePost } from "../../../redux/actions/postsAction";
-
+import { useTranslation } from "react-i18next";
 const post = (props) => {
   const { post, setCurrentId } = props;
   const [likes, setLikes] = useState(post?.likes);
 
   const user = JSON.parse(localStorage.getItem("profile"));
-
+  const lng = localStorage.getItem("i18nextLng");
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const openPost = () => {
-    navigate(`/home/${post._id}`);
+    navigate(`/posts/${post._id}`);
   };
 
   const userId = user?.result?.googleId || user?.result?._id;
@@ -39,12 +40,18 @@ const post = (props) => {
       return likes.find((like) => like === (user?.result?.googleId || user?.result?._id)) ? (
         <>
           <AiFillLike />
-          {likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
+          <div>
+            {likes.length}
+            {lng === "en" ? (likes.length === 1 ? " Like" : " Likes") : " Thích"}
+          </div>
         </>
       ) : (
         <>
           <AiOutlineLike />
-          {likes.length} {likes.length === 1 ? "Like" : "Likes"}
+          <div>
+            {likes.length}
+            {lng === "en" ? (likes.length === 1 ? " Like" : " Likes") : " Thích"}
+          </div>
         </>
       );
     }
@@ -52,7 +59,7 @@ const post = (props) => {
     return (
       <>
         <AiOutlineLike />
-        Like
+        {t("posts.like")}
       </>
     );
   };
@@ -75,7 +82,7 @@ const post = (props) => {
             <>
               <button onClick={() => setCurrentId(post._id)} className=" flex justify-center items-center gap-1">
                 <AiFillEdit />
-                EDIT
+                {t("posts.edit")}
               </button>
             </>
           ) : (
@@ -95,7 +102,7 @@ const post = (props) => {
             <>
               <button onClick={() => dispatch(deletePost(post._id))} className="flex gap-1 items-center justify-center">
                 <AiOutlineDelete />
-                DELETE
+                {t("posts.delete")}
               </button>
             </>
           ) : (

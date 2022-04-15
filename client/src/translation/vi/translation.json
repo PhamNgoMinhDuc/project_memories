@@ -1,0 +1,46 @@
+{
+  "btn": {
+    "logout": "Đăng xuất",
+    "login": "Đăng nhập",
+    "submit": "Xác nhận",
+    "search": "Tìm kiếm",
+    "update": "Cập nhập",
+    "clear": "Dọn"
+  },
+  "modal": {
+    "darkMode": "Chế độ tối",
+    "lightMode": "Chế độ sáng",
+    "editProfile": "Chỉnh sửa hồ sơ",
+    "editPassword": "Chỉnh sửa mật khẩu"
+  },
+  "form": {
+    "searchPost": "Tìm kiếm bài đăng",
+    "creatPost": "Tạo bài đăng",
+    "pressSpace": "Nhấn phím cách để thêm thẻ",
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "signInGG": "Đăng ký bằng Google",
+    "signInDont": "Bạn chưa có tài khoản?",
+    "signUpHave": "Bạn đã có tài khoản!",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "OldPassword": "Mật khẩu cũ",
+    "NewPassword": "Mật khẩu mới",
+    "firtsName": "Họ",
+    "lastName": "Tên",
+    "repeatPassword": "Nhập lại mật khẩu",
+    "account": "Tài khoản",
+    "name": "Tên"
+  },
+  "detail": {
+    "title": "Tiêu đề",
+    "message": "Tin nhắn",
+    "tags": "Thẻ"
+  },
+  "posts": {
+    "edit": "Sửa",
+    "like": "Thích",
+    "delete": "Xóa",
+    "comment": "Bình luận"
+  }
+}
