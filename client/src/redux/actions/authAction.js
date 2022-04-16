@@ -32,7 +32,8 @@ export const changeInfor = (id, formData, navigate) => async (dispatch) => {
     const { data } = await api.changeInfor(id, formData);
 
     dispatch({ type: AUTH, data });
-    navigate("/");
+    /* navigate("/"); */
+    window.location.reload();
   } catch (error) {
     console.log(error);
     let err = error.response.data;
@@ -40,13 +41,17 @@ export const changeInfor = (id, formData, navigate) => async (dispatch) => {
   }
 };
 
-export const changePassword = (id, formData, navigate) => async (dispatch) => {
+export const changePassword = (id, formData, navigate, isShowingUser) => async (dispatch) => {
   try {
     const { data } = await api.changePassword(id, formData);
 
     dispatch({ type: AUTH, data });
-    navigate("/");
+
+    /* navigate("/"); */
+
+    window.location.reload();
   } catch (error) {
+    console.log(error);
     let err = error.response.data;
     dispatch({ type: ERR, payload: err });
   }

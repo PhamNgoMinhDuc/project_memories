@@ -3,19 +3,23 @@
 import React, { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
 import { createPosts, updatePost } from "../../redux/actions/postsAction";
 
-import { useTranslation } from "react-i18next";
 const form = (props) => {
   const { currentId, setCurrentId } = props;
   const [postData, setPostData] = useState({ title: "", message: "", tags: "", selectedFile: "" });
   const [error, setError] = useState({ title: "", message: "", tags: "", selectedFile: "" });
-  const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile"));
-  const { t } = useTranslation();
+
   const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null));
   const err = useSelector((state) => state.posts.err.message);
+
+  const user = JSON.parse(localStorage.getItem("profile"));
   const lng = localStorage.getItem("i18nextLng");
+
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setError(err);
@@ -27,14 +31,14 @@ const form = (props) => {
   }, [post]);
 
   if (!user?.result?.name) {
-    return <div>Vui long dang nhap</div>;
+    return <div className="form text-center">{t("form.request")}</div>;
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!currentId) {
-      dispatch(createPosts({ ...postData, name: user?.result?.name }));
+      dispatch(createPosts({ ...postData, name: user?.result?.name, userId: user?.result?._id || user?.result?.googleId }));
     } else {
       dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
     }

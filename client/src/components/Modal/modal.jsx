@@ -1,32 +1,35 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { BsFillSunFill } from "react-icons/bs";
 import { FaMoon } from "react-icons/fa";
 
 import i18n from "../../i18n";
-import { useTranslation } from "react-i18next";
 import useDarkMode from "../../useDarkMode";
+
 import iconVietNam from "../../images/vietnam.png";
 import iconEnglish from "../../images/english.png";
 
 const modal = (props) => {
   const { isShowing, toggle, toggleUser } = props;
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
   const [isDarkMode, toggleDarkMode] = useDarkMode();
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const lng = localStorage.getItem("i18nextLng");
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+
   const changeLanguage = (e) => {
     i18n.changeLanguage(e);
   };
-  const lng = localStorage.getItem("i18nextLng");
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -36,15 +39,6 @@ const modal = (props) => {
     window.location.reload();
     setUser(null);
   };
-
-  useEffect(() => {
-    const token = user?.token;
-
-    /* const decodedToken = decode(token);
-    if (decodedToken.exp * 1000 < new Date().getTime()) handleLogout(); */
-
-    setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
 
   return isShowing ? (
     <div className="w-full h-screen fixed flex z-[1000] ">
@@ -56,7 +50,7 @@ const modal = (props) => {
         <h2 className=" text-xl font-bold">Menu</h2>
 
         <div className=" mt-20 w-full border-b-2"></div>
-        {user ? (
+        {user && !user?.result?.googleId ? (
           <>
             <div className="text-modal">{user?.result?.name}</div>
             <div

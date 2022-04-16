@@ -30,7 +30,8 @@
     "lastName": "Tên",
     "repeatPassword": "Nhập lại mật khẩu",
     "account": "Tài khoản",
-    "name": "Tên"
+    "name": "Tên",
+    "request": "Vui lòng đăng nhập để đăng bài"
   },
   "detail": {
     "title": "Tiêu đề",

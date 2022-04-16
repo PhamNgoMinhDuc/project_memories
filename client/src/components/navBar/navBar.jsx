@@ -2,22 +2,39 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+
 import { AiOutlineMenu } from "react-icons/ai";
 
 import memories from "../../images/memories.png";
 import avatar from "../../images/avatar.jpg";
-import { useTranslation } from "react-i18next";
 const navBar = (props) => {
   const { toggle } = props;
+
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
+
   useEffect(() => {
     const token = user?.token;
+    if (token) {
+      const decodedToken = decode(token);
 
-    /* const decodedToken = decode(token);
-    if (decodedToken.exp * 1000 < new Date().getTime()) handleLogout(); */
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        dispatch({ type: "LOGOUT" });
+
+        navigate("/");
+
+        window.location.reload();
+        setUser(null);
+      }
+    }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);

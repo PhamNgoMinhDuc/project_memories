@@ -3,17 +3,18 @@ import React, { useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { AiFillLike, AiOutlineDelete, AiFillEdit, AiOutlineLike } from "react-icons/ai";
 
 import { deletePost, likePost } from "../../../redux/actions/postsAction";
-import { useTranslation } from "react-i18next";
 const post = (props) => {
   const { post, setCurrentId } = props;
   const [likes, setLikes] = useState(post?.likes);
 
   const user = JSON.parse(localStorage.getItem("profile"));
   const lng = localStorage.getItem("i18nextLng");
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ const post = (props) => {
         <img
           src={post.selectedFile || "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"}
           alt=""
-          className="w-full h-36 object-cover brightness-50 hover:brightness-100 transition delay-100 cursor-pointer"
+          className="w-full h-40 object-cover brightness-50 hover:brightness-100 transition delay-100 cursor-pointer"
           onClick={openPost}
         />
         <div className=" absolute top-0 flex justify-between w-full p-4 text-white">
@@ -78,7 +79,7 @@ const post = (props) => {
             <h3 className=" text-xl font-semibold">{post.name}</h3>
             <h4 className=" text-xs">{moment(post.createdAt).fromNow()}</h4>
           </div>
-          {user?.result?.googleId === post?.creator || user?.result?._id === post?.creator ? (
+          {user?.result?.name === post?.creator || user?.result?._id === post?.creator ? (
             <>
               <button onClick={() => setCurrentId(post._id)} className=" flex justify-center items-center gap-1">
                 <AiFillEdit />

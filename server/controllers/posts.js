@@ -31,6 +31,7 @@ export const getPostsBySearch = async (req, res) => {
     const LIMIT = 8;
     const title = new RegExp(searchQuery, "i");
     const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(",") } }] }).limit(LIMIT);
+
     res.status(200).json({ data: posts });
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -39,7 +40,7 @@ export const getPostsBySearch = async (req, res) => {
 
 export const postPosts = async (req, res) => {
   const post = req.body;
-  const newPostsMessage = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString() });
+  const newPostsMessage = new PostMessage({ ...post, creator: post.userId, createdAt: new Date().toISOString() });
   try {
     let message = {};
     if (newPostsMessage.title.length <= 0) {
@@ -59,7 +60,7 @@ export const postPosts = async (req, res) => {
       res.status(400).json({ message: message });
     }
 
-    res.status(201).json(newPostsMessage.title.length);
+    res.status(201).json(newPostsMessage);
   } catch (error) {
     res.status(409).json(error.message);
   }

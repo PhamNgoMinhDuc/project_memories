@@ -2,14 +2,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import { getPostsBySearch } from "../../redux/actions/postsAction";
-import { useTranslation } from "react-i18next";
 const form = () => {
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
+
   const { t } = useTranslation();
   const dipatch = useDispatch();
   const navigation = useNavigate();

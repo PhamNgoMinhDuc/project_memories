@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import GoogleLogin from "react-google-login";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { AiFillEyeInvisible, AiFillEye, AiOutlineGooglePlus } from "react-icons/ai";
 
 import { signin, signup } from "../../redux/actions/authAction";
 
 import NavBar from "../navBar/navBar";
-import { useTranslation } from "react-i18next";
 
 const auth = () => {
   const [isSignIn, setSignIn] = useState(true);
@@ -17,10 +17,13 @@ const auth = () => {
   const [formDataSignUp, setformDataSignUp] = useState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "" });
   const [errorSigIn, setErrorSigIn] = useState({ email: "", password: "" });
   const [errorSigUp, setErrorSigUp] = useState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "" });
-  const { t } = useTranslation();
+
   const errSignIn = useSelector((state) => state.posts.err.errSignIn);
   const errSignUp = useSelector((state) => state.posts.err.errSignUp);
+
   const lng = localStorage.getItem("i18nextLng");
+
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

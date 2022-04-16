@@ -53,7 +53,7 @@ const postDetails = () => {
       <NavBar />
       <div>
         <div className="h-20"></div>
-        <div className="w-full h-auto form ">
+        <div className="w-full h-screen form ">
           <div className="flex flex-wrap-reverse h-auto gap-2 md:flex-nowrap md:flex-row">
             <div className="flex-auto w-full h-[600px] md:flex-auto md:w-[50%]">
               <div className=" text-4xl font-medium w-full h-12 truncate">{post.title}</div>

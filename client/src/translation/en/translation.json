@@ -30,7 +30,8 @@
     "lastName": "Last Name",
     "repeatPassword": "Repeat Password",
     "account": "Account",
-    "name": "Name"
+    "name": "Name",
+    "request": "Please login to post"
   },
   "detail": {
     "title": "Title",

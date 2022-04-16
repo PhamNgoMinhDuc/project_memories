@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getPosts } from "../../redux/actions/postsAction";
-
 import { useLocation } from "react-router-dom";
+
 import Form from "../Form/form";
 import Search from "../Search/search";
 import Posts from "../Posts/posts";
@@ -20,9 +20,10 @@ function useQuery() {
 
 const home = () => {
   const [currentId, setCurrentId] = useState(0);
-
   const { isShowing, toggle, isShowingUser, toggleUser } = useModal();
+
   const user = JSON.parse(localStorage.getItem("profile"));
+
   const dispatch = useDispatch();
 
   const query = useQuery();
